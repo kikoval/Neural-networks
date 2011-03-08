@@ -7,7 +7,7 @@
 # This code comes with no warranty of any kind.
 
 # Stephen Marsland, 2008
-# Kristian Valentin, 2011
+# Kristian Valentin <valentin@fmph.uniba.sk>, 2011
 
 import numpy as np
 
@@ -49,27 +49,29 @@ class pcn:
 
     def _computeError(self, inputs, targets):
         """Compute least square error"""
-        e = 0.
-        for i in range(np.shape(inputs)[0]):
-            output = np.where(self._pcnfwd(inputs[i,:])>0.6,1.,0.)
-            e += .5*(targets[i]-output)**2
-        return e
+        return .5*sum(targets-self._pcnfwd(inputs))**2
 
     def onlineTrain(self, eta, verbose=False):
         """Online training"""
         inputs = np.concatenate((self.inputs,-np.ones((self.nData,1))),axis=1)
         targets = self.targets
-        # Training
+        
         change = range(self.nData)
         error = self._computeError(inputs, targets)
+        olderr = np.inf
 
-        while error > 0.1:
-            if verbose: print "Error: ",error
+        # Stopping criterion can vary
+        # error > 0.1
+        # classiffError > 0
+        while np.abs(olderr-error)/error > 0.01:
+            if verbose:
+                print "Error: %.4f" % error
             for i in range(np.shape(inputs)[0]):
                 for j in range(np.shape(self.weights)[0]):
                     output = self._pcnfwd(inputs[i,:])
                     self.weights[j] += eta*(targets[i]-output)*inputs[i,j]*self.fd(output)
             
+            olderr = error
             error = self._computeError(inputs, targets)
 
             # Randomise order of inputs
@@ -78,7 +80,7 @@ class pcn:
             targets = targets[change,:]
 
     def pcntrain(self,eta,nIterations,verbose=False):
-        """ Train the thing """    
+        """ Online learning using matrix notation"""    
         # Add the inputs that match the bias node
         inputs = np.concatenate((self.inputs,-np.ones((self.nData,1))),axis=1)
         targets = self.targets
@@ -119,7 +121,6 @@ class pcn:
         # Threshold the outputs
         return self.f(outputs)
 
-
     def confmat(self,inputs,targets):
         """Confusion matrix"""
 
@@ -149,6 +150,7 @@ class pcn:
         print "Classification accuracy: %.2f" % (np.trace(cm)/np.sum(cm)*100.)
         
 def logic():
+    """ Demo"""
     """ Run AND, OR and XOR logic functions"""
     a = np.array([[0,0,0],[0,1,0],[1,0,0],[1,1,1]],dtype=float)
     b = np.array([[0,0,0],[0,1,1],[1,0,1],[1,1,1]],dtype=float)
