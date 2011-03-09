@@ -116,10 +116,7 @@ class pcn:
         """ Run the trained network """
 
         inputs = np.concatenate((inputs,-np.ones((np.shape(inputs)[0],1))),axis=1)
-        outputs = self._pcnfwd(inputs)
-
-        # Threshold the outputs
-        return self.f(outputs)
+        return self._pcnfwd(inputs)
 
     def confmat(self,inputs,targets):
         """Confusion matrix"""
@@ -157,7 +154,7 @@ def logic():
     c = np.array([[0,0,0],[0,1,1],[1,0,1],[1,1,0]],dtype=float)
     
     q = pcn(a[:,0:2],a[:,2:],'sigmoid')
-    q.onlineTrain(0.25, True)
+    q.onlineTrain(0.55, True)
     #q.pcntrain(0.25,30)
     q.confmat(a[:,0:2],a[:,2:])
     
