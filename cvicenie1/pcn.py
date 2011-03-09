@@ -49,7 +49,7 @@ class pcn:
 
     def _computeError(self, inputs, targets):
         """Compute least square error"""
-        return .5*sum(targets-self._pcnfwd(inputs))**2
+        return .5*np.sum((targets-self._pcnfwd(inputs))**2)
 
     def onlineTrain(self, eta, verbose=False):
         """Online training"""
