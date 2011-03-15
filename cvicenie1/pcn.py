@@ -67,8 +67,8 @@ class pcn:
             if verbose:
                 print "Error: %.4f" % error
             for i in range(np.shape(inputs)[0]):
+                output = self._pcnfwd(inputs[i,:])
                 for j in range(np.shape(self.weights)[0]):
-                    output = self._pcnfwd(inputs[i,:])
                     self.weights[j] += eta*(targets[i]-output)*inputs[i,j]*self.fd(output)
             
             olderr = error
