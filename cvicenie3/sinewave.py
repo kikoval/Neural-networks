@@ -1,4 +1,4 @@
-
+#!/bin/python
 # Code from Chapter 3 of Machine Learning: An Algorithmic Perspective
 # by Stephen Marsland (http://seat.massey.ac.nz/personal/s.r.marsland/MLBook.html)
 
@@ -17,6 +17,7 @@ from numpy import *
 x = ones((1,40))*linspace(0,1,40)
 t = sin(2*pi*x) + cos(4*pi*x) + random.randn(40)*0.2
 x = (x-0.5)*2
+
 x = transpose(x)
 t = transpose(t)
 
@@ -33,14 +34,21 @@ plot(x,t,'o')
 xlabel('x')
 ylabel('t')
 
+
 # Perform basic training with a small MLP
 import mlp
-net = mlp.mlp(train,traintarget,3,outtype='linear')
-net.mlptrain(train,traintarget,0.25,101)
+net = mlp.mlp(train,traintarget,4,outtype='linear')
+net.mlptrain(train,traintarget,0.7,10001, True)
 
 # Use early stopping
-net.earlystopping(train,traintarget,valid,validtarget,0.25)
-print net.weights1
+#net.earlystopping(train,traintarget,valid,validtarget,0.25,True)
+
+#nett = net.output(test)
+nett = net.output(x)
+
+plot(x,nett,'x')
+
+show()
 
 # Test out different sizes of network
 #count = 0
@@ -50,15 +58,14 @@ print net.weights1
 #        net = mlp.mlp(train,traintarget,nnodes,outtype='linear')
 #        out[i,count] = net.earlystopping(train,traintarget,valid,validtarget,0.25)
 #    count += 1
-#    
+    
 #test = concatenate((test,-ones((shape(test)[0],1))),axis=1)
 #outputs = net.mlpfwd(test)
 #print 0.5*sum((outputs-testtarget)**2)
-#
+
 #print out
 #print out.mean(axis=0)
 #print out.var(axis=0)
 #print out.max(axis=0)
 #print out.min(axis=0)
 
-show()

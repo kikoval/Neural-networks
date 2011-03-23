@@ -117,6 +117,12 @@ class mlp:
         else:
             print "Error: unknown neuron type"
 
+    def output(self, inputs):
+        """Test the train net"""
+        # Add the inputs that match the bias node
+        inputs = np.concatenate((inputs,-np.ones((np.shape(inputs)[0],1))),axis=1)
+        return self.mlpfwd(inputs)
+
     def confmat(self,inputs,targets):
         """Confusion matrix"""
 
