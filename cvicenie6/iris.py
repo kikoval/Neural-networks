@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 # Code from Chapter 4 of Machine Learning: An Algorithmic Perspective
 # by Stephen Marsland (http://seat.massey.ac.nz/personal/s.r.marsland/MLBook.html)
 
@@ -10,7 +10,7 @@
 
 from numpy import *
 
-iris = loadtxt('../3 MLP/iris_proc.data',delimiter=',')
+iris = loadtxt('iris_proc.data',delimiter=',')
 iris[:,:4] = iris[:,:4]-iris[:,:4].mean(axis=0)
 imax = concatenate((iris.max(axis=0)*ones((1,5)),iris.min(axis=0)*ones((1,5))),axis=0).max(axis=0)
 iris[:,:4] = iris[:,:4]/imax[:4]

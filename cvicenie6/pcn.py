@@ -8,7 +8,7 @@
 
 # Stephen Marsland, 2008
 
-from numpy import shape, ndim, dot, ones, zeros, concatenate, transpose
+from numpy import shape, ndim, dot, ones, zeros, concatenate, transpose, random, where
 
 class pcn:
 	""" A basic Perceptron"""
