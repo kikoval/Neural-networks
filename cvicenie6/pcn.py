@@ -7,6 +7,7 @@
 # This code comes with no warranty of any kind.
 
 # Stephen Marsland, 2008
+# Kristian Valentin, 2011
 
 from numpy import shape, ndim, dot, ones, zeros, concatenate, transpose, random, where
 
